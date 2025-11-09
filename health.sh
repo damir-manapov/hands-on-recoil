@@ -13,45 +13,45 @@ OUTDATED_EXIT=$?
 set -e
 
 if [ $OUTDATED_EXIT -eq 124 ]; then
-	echo "Warning: Package check timed out"
+  echo "Warning: Package check timed out"
 elif [ -n "$OUTDATED_OUTPUT" ]; then
-	# Check if output contains package table (indicates outdated packages)
-	if echo "$OUTDATED_OUTPUT" | grep -qE "Package|Current|Latest"; then
-		# Count outdated packages, excluding React packages (intentionally kept at 18 for Recoil compatibility)
-		# Extract package names from table rows and filter out React packages
-		NON_REACT_OUTDATED=$(echo "$OUTDATED_OUTPUT" | grep -E "│.*│.*│" | grep -vE "react|@types/react" | grep -vE "^├|^└|^┌|Package" | wc -l)
-		
-		# Trim whitespace
-		NON_REACT_OUTDATED=$(echo "$NON_REACT_OUTDATED" | tr -d ' ')
-		
-		if [ -n "$NON_REACT_OUTDATED" ] && [ "$NON_REACT_OUTDATED" -gt 0 ]; then
-			echo "Outdated packages found:"
-			echo "$OUTDATED_OUTPUT"
-			echo ""
-			echo "Error: Outdated packages found. Consider updating with 'pnpm update'."
-			exit 1
-		else
-			echo "All packages are up to date (React 18 is intentionally kept for Recoil compatibility)"
-		fi
-	else
-		echo "All packages are up to date"
-	fi
+  # Check if output contains package table (indicates outdated packages)
+  if echo "$OUTDATED_OUTPUT" | grep -qE "Package|Current|Latest"; then
+    # Count outdated packages, excluding React packages (intentionally kept at 18 for Recoil compatibility)
+    # Extract package names from table rows and filter out React packages
+    NON_REACT_OUTDATED=$(echo "$OUTDATED_OUTPUT" | grep -E "│.*│.*│" | grep -vE "react|@types/react" | grep -vE "^├|^└|^┌|Package" | wc -l)
+    
+    # Trim whitespace
+    NON_REACT_OUTDATED=$(echo "$NON_REACT_OUTDATED" | tr -d ' ')
+    
+    if [ -n "$NON_REACT_OUTDATED" ] && [ "$NON_REACT_OUTDATED" -gt 0 ]; then
+      echo "Outdated packages found:"
+      echo "$OUTDATED_OUTPUT"
+      echo ""
+      echo "Error: Outdated packages found. Consider updating with 'pnpm update'."
+      exit 1
+    else
+      echo "All packages are up to date (React 18 is intentionally kept for Recoil compatibility)"
+    fi
+  else
+    echo "All packages are up to date"
+  fi
 else
-	echo "All packages are up to date"
+  echo "All packages are up to date"
 fi
 
 echo "Checking for leaked secrets in repository..."
 if ! command -v gitleaks &> /dev/null; then
-	echo "Error: gitleaks is not installed"
-	echo "Install it with: pnpm add -D gitleaks or visit https://github.com/gitleaks/gitleaks"
-	exit 1
+  echo "Error: gitleaks is not installed"
+  echo "Install it with: pnpm add -D gitleaks or visit https://github.com/gitleaks/gitleaks"
+  exit 1
 fi
 
 if gitleaks detect --no-banner --exit-code 1 2>&1; then
-	echo "No secrets found in repository"
+  echo "No secrets found in repository"
 else
-	echo "Error: Potential secrets detected in repository"
-	exit 1
+  echo "Error: Potential secrets detected in repository"
+  exit 1
 fi
 
 echo "All health checks passed!"
