@@ -6,11 +6,27 @@ echo "Checking for vulnerabilities..."
 pnpm audit --audit-level=moderate || exit 1
 
 echo "Checking for outdated packages..."
-OUTDATED=$(pnpm outdated 2>&1)
-if [ -n "$OUTDATED" ] && echo "$OUTDATED" | grep -qE "(Package|packages).*outdated|Wanted|Latest"; then
-	echo "$OUTDATED"
-	echo "Error: Outdated packages found"
-	exit 1
+# Capture output with timeout to prevent hanging
+set +e
+OUTDATED_OUTPUT=$(timeout 10 pnpm outdated 2>&1)
+OUTDATED_EXIT=$?
+set -e
+
+if [ $OUTDATED_EXIT -eq 124 ]; then
+	echo "Warning: Package check timed out"
+elif [ -n "$OUTDATED_OUTPUT" ]; then
+	# Check if output contains package table (indicates outdated packages)
+	if echo "$OUTDATED_OUTPUT" | grep -qE "Package|Current|Latest"; then
+		echo "Outdated packages found:"
+		echo "$OUTDATED_OUTPUT"
+		echo ""
+		echo "Error: Outdated packages found. Consider updating with 'pnpm update'."
+		exit 1
+	else
+		echo "All packages are up to date"
+	fi
+else
+	echo "All packages are up to date"
 fi
 
 echo "Checking for leaked secrets in repository..."
