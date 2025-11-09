@@ -9,7 +9,11 @@ function App() {
 		<div className="app">
 			<h1>Hands-on Recoil</h1>
 			<div className="card">
-				<button onClick={() => setCount((prev) => prev + 1)}>
+				<button
+					onClick={() => {
+						setCount((prev) => prev + 1);
+					}}
+				>
 					count is {count}
 				</button>
 				<p>

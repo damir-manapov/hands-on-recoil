@@ -10,6 +10,8 @@ export default tseslint.config(
 	js.configs.recommended,
 	...tseslint.configs.recommended,
 	...tseslint.configs.recommendedTypeChecked,
+	...tseslint.configs.strict,
+	...tseslint.configs.strictTypeChecked,
 	{
 		files: ['**/*.{ts,tsx}'],
 		languageOptions: {
@@ -45,6 +47,22 @@ export default tseslint.config(
 			'@typescript-eslint/no-unsafe-argument': 'error',
 			// Disallow deprecated APIs
 			'@typescript-eslint/no-deprecated': 'error',
+			// Additional strict rules
+			'@typescript-eslint/no-non-null-assertion': 'error',
+			'@typescript-eslint/prefer-nullish-coalescing': 'error',
+			'@typescript-eslint/prefer-optional-chain': 'error',
+			'@typescript-eslint/no-floating-promises': 'error',
+			'@typescript-eslint/await-thenable': 'error',
+			'@typescript-eslint/no-misused-promises': 'error',
+			'@typescript-eslint/require-await': 'error',
+			'@typescript-eslint/no-unnecessary-type-assertion': 'error',
+			'@typescript-eslint/restrict-template-expressions': 'error',
+			'@typescript-eslint/restrict-plus-operands': 'error',
+			'@typescript-eslint/no-unnecessary-condition': 'error',
+			'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
+			'@typescript-eslint/prefer-readonly': 'error',
+			'@typescript-eslint/prefer-reduce-type-parameter': 'error',
+			'@typescript-eslint/prefer-return-this-type': 'error',
 			// Prettier integration
 			'prettier/prettier': 'error',
 			// React settings

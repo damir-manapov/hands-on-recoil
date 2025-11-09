@@ -19,7 +19,12 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndexedAccess": true
+		"noUncheckedIndexedAccess": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitOverride": true
 	},
 	"include": ["src"],
 	"references": [{ "path": "./tsconfig.node.json" }]
