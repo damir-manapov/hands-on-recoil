@@ -5,7 +5,7 @@ A research project for exploring and working with Recoil state management librar
 ## Tech Stack
 
 - **TypeScript** - Type-safe JavaScript
-- **React** - UI library
+- **React 18** - UI library (React 19 is not yet compatible with Recoil 0.7.7)
 - **Recoil** - State management
 - **Vite** - Build tool and dev server
 - **Vitest** - Testing framework

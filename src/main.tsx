@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
+import { ErrorBoundary } from './ErrorBoundary';
 import App from './App.tsx';
 import './index.css';
 
@@ -11,8 +12,10 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
 	<StrictMode>
-		<RecoilRoot>
-			<App />
-		</RecoilRoot>
+		<ErrorBoundary>
+			<RecoilRoot>
+				<App />
+			</RecoilRoot>
+		</ErrorBoundary>
 	</StrictMode>
 );
