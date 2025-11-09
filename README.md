@@ -2,11 +2,13 @@
 
 A research project for exploring and working with Recoil state management library in React.
 
+> **Note:** Recoil appears to be abandoned and does not support React 19. The latest version (0.7.7) only works with React 18. This project uses React 18 for compatibility. Consider alternatives like Zustand, Jotai, or Redux Toolkit for production projects requiring React 19 support.
+
 ## Tech Stack
 
 - **TypeScript** - Type-safe JavaScript
-- **React 18** - UI library (React 19 is not yet compatible with Recoil 0.7.7)
-- **Recoil** - State management
+- **React 18** - UI library (React 19 is not supported by Recoil 0.7.7)
+- **Recoil** - State management (appears abandoned, no React 19 support)
 - **Vite** - Build tool and dev server
 - **Vitest** - Testing framework
 - **ESLint** - Code linting (with strict rules for `any` usage and deprecations)
@@ -179,6 +181,11 @@ This project enforces strict TypeScript rules:
 - **No `any` type usage** - All `any` types are treated as errors
 - **No unsafe operations** - Unsafe assignments, member access, calls, and returns are disallowed
 - **No deprecated APIs** - Usage of deprecated APIs triggers errors
+
+## Known Limitations
+
+- **Recoil Compatibility**: Recoil 0.7.7 does not support React 19. This project uses React 18 to maintain compatibility.
+- **Project Status**: Recoil appears to be abandoned with no recent updates. The last release was in 2022, and there's no official support for React 19.
 
 ## License
 
