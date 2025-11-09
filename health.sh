@@ -13,17 +13,17 @@ if [ -n "$OUTDATED" ] && echo "$OUTDATED" | grep -qE "(Package|packages).*outdat
 	exit 1
 fi
 
-echo "Checking for leaked secrets in current files..."
+echo "Checking for leaked secrets in repository..."
 if ! command -v gitleaks &> /dev/null; then
 	echo "Error: gitleaks is not installed"
 	echo "Install it with: pnpm add -D gitleaks or visit https://github.com/gitleaks/gitleaks"
 	exit 1
 fi
 
-if gitleaks detect --no-banner --no-git --exit-code 1 2>&1; then
-	echo "No secrets found in current files"
+if gitleaks detect --no-banner --exit-code 1 2>&1; then
+	echo "No secrets found in repository"
 else
-	echo "Error: Potential secrets detected in files"
+	echo "Error: Potential secrets detected in repository"
 	exit 1
 fi
 
