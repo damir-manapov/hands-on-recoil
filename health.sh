@@ -17,11 +17,22 @@ if [ $OUTDATED_EXIT -eq 124 ]; then
 elif [ -n "$OUTDATED_OUTPUT" ]; then
 	# Check if output contains package table (indicates outdated packages)
 	if echo "$OUTDATED_OUTPUT" | grep -qE "Package|Current|Latest"; then
-		echo "Outdated packages found:"
-		echo "$OUTDATED_OUTPUT"
-		echo ""
-		echo "Error: Outdated packages found. Consider updating with 'pnpm update'."
-		exit 1
+		# Count outdated packages, excluding React packages (intentionally kept at 18 for Recoil compatibility)
+		# Extract package names from table rows and filter out React packages
+		NON_REACT_OUTDATED=$(echo "$OUTDATED_OUTPUT" | grep -E "│.*│.*│" | grep -vE "react|@types/react" | grep -vE "^├|^└|^┌|Package" | wc -l)
+		
+		# Trim whitespace
+		NON_REACT_OUTDATED=$(echo "$NON_REACT_OUTDATED" | tr -d ' ')
+		
+		if [ -n "$NON_REACT_OUTDATED" ] && [ "$NON_REACT_OUTDATED" -gt 0 ]; then
+			echo "Outdated packages found:"
+			echo "$OUTDATED_OUTPUT"
+			echo ""
+			echo "Error: Outdated packages found. Consider updating with 'pnpm update'."
+			exit 1
+		else
+			echo "All packages are up to date (React 18 is intentionally kept for Recoil compatibility)"
+		fi
 	else
 		echo "All packages are up to date"
 	fi
